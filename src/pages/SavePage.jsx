@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Client } from "@gradio/client";
-import './SavePage.css';
+import './SharedLayout.css';
 
 const SavePage = () => {
   const [status, setStatus] = useState("");
@@ -31,33 +31,56 @@ const SavePage = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <h1>Upload Face to Save</h1>
+    <div className="page-container">
+      <div className="instructions">
+        <h2>How to Use</h2>
+        <p>Upload a clear image of a face to save it in the database.</p>
+        <ul>
+          <li>Only one face per image is supported.</li>
+          <li>Image will be saved with facial features using ArcFace.</li>
+        </ul>
+      </div>
 
-        <label className="upload-btn">
-          Choose Image
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleUpload}
-            className="file-input"
-          />
-        </label>
+      <div className="main-content">
+        <div className="tab-buttons">
+          <div className="tab-button active">Upload & Save</div>
+        </div>
 
-        {preview && (
-          <div className="image-preview">
-            <img
-              src={preview}
-              alt="Uploaded preview"
-              className="preview-img"
+        <div className="card">
+          <h1>Upload Face to Save</h1>
+
+          <label className="button" > 
+            Choose Image
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleUpload}
+              style={{ display: "none" }}
             />
-          </div>
-        )}
+          </label>
+          {preview && (
+            <div className="image-preview">
+              <img
+                src={preview}
+                alt="Uploaded preview"
+                className="preview-img"
+                style={{ maxHeight: "180px", maxWidth: "100%", objectFit: "contain" }}
+              />
+            </div>
+          )}
 
-        <p className={`status ${status.includes("✅") ? "success" : status.includes("❌") ? "error" : ""}`}>
-          {loading ? "⏳ Uploading..." : status}
-        </p>
+          <div
+            className={`status-box ${
+              status.includes("✅")
+                ? "success"
+                : status.includes("❌")
+                ? "error"
+                : ""
+            }`}
+          >
+            {loading ? "⏳ Uploading..." : status}
+          </div>
+        </div>
       </div>
     </div>
   );
